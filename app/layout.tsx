@@ -27,8 +27,8 @@ export default async function RootLayout({
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body className="antialiased">
         {/* TEMPORARY: Remove after debugging */}
-        {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/3.4.3/eruda.min.js"></script>
-        <script dangerouslySetInnerHTML={{ __html: "eruda.init();" }} /> */}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/3.4.3/eruda.min.js"></script>
+        <script dangerouslySetInnerHTML={{ __html: "eruda.init();" }} />
 
         <AuthProvider>
           <ToastProvider />
