@@ -21,22 +21,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const collections = await getCollections();
+  // const collections = await getCollections();
 
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
-      <body className="antialiased">
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
+      <body className="antialiased" suppressHydrationWarning>
         {/* TEMPORARY: Remove after debugging */}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/3.4.3/eruda.min.js"></script>
         <script dangerouslySetInnerHTML={{ __html: "eruda.init();" }} />
 
-        <AuthProvider>
-          <ToastProvider />
-          <Navbar collections={collections} />
+        {/* <AuthProvider> */}
+          {/* <ToastProvider /> */}
+          {/* <Navbar collections={collections} /> */}
           {children}
           <CTA />
           <Footer />
-        </AuthProvider>
+        {/* </AuthProvider> */}
       </body>
     </html>
   );
