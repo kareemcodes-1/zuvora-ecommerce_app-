@@ -21,7 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const collections = await getCollections();
+  const collections = await getCollections();
 
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
@@ -31,8 +31,8 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: "eruda.init();" }} />
 
         <AuthProvider>
-          {/* <ToastProvider /> */}
-          {/* <Navbar collections={collections} /> */}
+          <ToastProvider />
+          <Navbar collections={collections} />
           {children}
           <CTA />
           <Footer />

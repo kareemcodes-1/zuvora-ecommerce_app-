@@ -4,26 +4,18 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useCart from "@/store";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import { Menu, Search, ShoppingCart, User } from "lucide-react";
 import MenuModal from "../modal/menu-modal";
 import CartModal from "../modal/cart-modal";
 import SearchModal from "../modal/search-modal";
 import { Collection } from "@/types";
 import { usePathname } from "next/navigation";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-
-gsap.registerPlugin(SplitText)
 
 const Navbar = ({ collections }: { collections: Collection[] }) => {
   const [navScrolled, setNavScrolled] = useState(false);
   const [openMenuModal, setOpenMenuModal] = useState(false);
   const [openCartModal, setOpenCartModal] = useState(false);
   const [openSearchModal, setOpenSearchModal] = useState(false);
-  const navLinksRef = useRef<HTMLDivElement | null>(null);
-
-  const navLogo = useRef<HTMLAnchorElement | null>(null);
-  const navButtons = useRef<HTMLDivElement | null>(null);
 
   const { data: session, status } = useSession();
   const pathname = usePathname();
@@ -34,17 +26,17 @@ const Navbar = ({ collections }: { collections: Collection[] }) => {
   );
 
   const navLinks = useMemo(() => [
-  { 
-    label: "Mens", 
-    href: `/collections/${collections?.find(c => c.name.toLowerCase() === "mens")?.name.toLowerCase() ?? "mens"}` 
-  },
-  { 
-    label: "Womens", 
-    href: `/collections/${collections?.find(c => c.name.toLowerCase() === "womens")?.name.toLowerCase() ?? "womens"}` 
-  },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-], [collections]);
+    {
+      label: "Mens",
+      href: `/collections/${collections?.find(c => c.name.toLowerCase() === "mens")?.name.toLowerCase() ?? "mens"}`,
+    },
+    {
+      label: "Womens",
+      href: `/collections/${collections?.find(c => c.name.toLowerCase() === "womens")?.name.toLowerCase() ?? "womens"}`,
+    },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ], [collections]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,45 +46,6 @@ const Navbar = ({ collections }: { collections: Collection[] }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-
-  useEffect(() => {
-  if (!navLinksRef.current || !navLogo.current || !navButtons.current) return;
-
-  // Nav links
-  const links = navLinksRef.current.querySelectorAll("a");
-  gsap.set(links, { yPercent: 120, opacity: 0 });
-  gsap.to(links, {
-    yPercent: 0,
-    opacity: 1,
-    duration: 0.8,
-    stagger: 0.025,
-    ease: "power3.out",
-    delay: 0.5,
-  });
-
-  // Logo
-  gsap.set(navLogo.current, { yPercent: 120, opacity: 0 });
-  gsap.to(navLogo.current, {
-    yPercent: 0,
-    opacity: 1,
-    duration: 1,
-    ease: "power3.out",
-    delay: 0.5,
-  });
-
-  // Nav buttons
-  const items = navButtons.current.querySelectorAll("button, a");
-  gsap.set(items, { yPercent: 120, opacity: 0 });
-  gsap.to(items, {
-    yPercent: 0,
-    opacity: 1,
-    duration: 0.8,
-    stagger: 0.025,
-    ease: "power3.out",
-    delay: 0.5,
-  });
-}, []);
 
   const handleLogout = async () => {
     await signOut({ redirect: true, callbackUrl: "/" });
@@ -123,53 +76,49 @@ const Navbar = ({ collections }: { collections: Collection[] }) => {
         <nav className="flex items-center justify-between w-full">
           <div className="flex items-center gap-[8rem]">
             <div className={`${isLight ? "text-white" : "text-black"} overflow-hidden lg:text-[1.2rem] text-[1.1rem] uppercase telegraf tracking-[.1rem]`}>
-              <Link ref={navLogo} href="/" className="overflow-hidden telegraf font-[500] uppercase">
+              <Link href="/" className="telegraf font-[500] uppercase">
                 Zuvora
               </Link>
             </div>
 
-            <div className="overflow-hidden">
-              <div ref={navLinksRef} className={`${isLight ? "text-white" : "text-black"} lg:flex hidden items-center gap-[2rem] overflow-hidden`}>
-                {navLinks.map((link, index) => (
-                  <Link key={index} href={link.href} className="text-[1rem] font-[200]">
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+            <div className={`${isLight ? "text-white" : "text-black"} lg:flex hidden items-center gap-[2rem]`}>
+              {navLinks.map((link, index) => (
+                <Link key={index} href={link.href} className="text-[1rem] font-[200]">
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
 
-          <div className="oveflow-hidden">
-            <div className="flex items-center gap-[1rem] lg:gap-[1.5rem]" ref={navButtons}>
-              <button
+          <div className="flex items-center gap-[1rem] lg:gap-[1.5rem]">
+            <button
               onClick={() => setOpenMenuModal((prev) => !prev)}
               className="block lg:hidden"
             >
-              <Menu strokeWidth="1.25px"/>
+              <Menu strokeWidth="1.25px" />
             </button>
 
-              <button className="text-[1rem] uppercase overflow-hidden" onClick={() => setOpenSearchModal(true)}>
-                <Search strokeWidth="1.25px" />
-              </button>
-              <button className="text-[1rem] uppercase overflow-hidden" onClick={() => setOpenCartModal(true)}>
-                <ShoppingCart strokeWidth={"1.25px"} />
-              </button>
+            <button className="text-[1rem] uppercase" onClick={() => setOpenSearchModal(true)}>
+              <Search strokeWidth="1.25px" />
+            </button>
+            <button className="text-[1rem] uppercase" onClick={() => setOpenCartModal(true)}>
+              <ShoppingCart strokeWidth={"1.25px"} />
+            </button>
 
-              {status === "authenticated" ? (
-                <div className="hidden lg:flex items-center gap-[1rem]">
-                  <Link href="/profile" className="text-[1rem] uppercase overflow-hidden flex items-center gap-2">
-                    <User strokeWidth={1.25} />
-                  </Link>
-                  <button className="text-[1rem] uppercase overflow-hidden" onClick={handleLogout}>
-                    LOGOUT
-                  </button>
-                </div>
-              ) : (
-                <Link href="/auth/login" className="hidden lg:flex text-[1rem] uppercase overflow-hidden">
-                  <User strokeWidth={"1.25px"} />
+            {status === "authenticated" ? (
+              <div className="hidden lg:flex items-center gap-[1rem]">
+                <Link href="/profile" className="text-[1rem] uppercase flex items-center gap-2">
+                  <User strokeWidth={1.25} />
                 </Link>
-              )}
-            </div>
+                <button className="text-[1rem] uppercase" onClick={handleLogout}>
+                  LOGOUT
+                </button>
+              </div>
+            ) : (
+              <Link href="/auth/login" className="hidden lg:flex text-[1rem] uppercase">
+                <User strokeWidth={"1.25px"} />
+              </Link>
+            )}
           </div>
         </nav>
       </header>
