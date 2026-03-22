@@ -30,13 +30,13 @@ export default async function RootLayout({
         <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/3.4.3/eruda.min.js"></script>
         <script dangerouslySetInnerHTML={{ __html: "eruda.init();" }} />
 
-        {/* <AuthProvider> */}
+        <AuthProvider>
           {/* <ToastProvider /> */}
           {/* <Navbar collections={collections} /> */}
           {children}
           <CTA />
           <Footer />
-        {/* </AuthProvider> */}
+        </AuthProvider>
       </body>
     </html>
   );
