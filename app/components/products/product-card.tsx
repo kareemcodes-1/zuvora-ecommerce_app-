@@ -1,9 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import { Product } from "../../../../types";
+import { Product } from "@/types";
 import { Link } from "lucide-react";
-import Skeleton from 'react-loading-skeleton';
-import "react-loading-skeleton/dist/skeleton.css";
 import { priceFormatter } from "@/lib/priceFormatter";
 
 
