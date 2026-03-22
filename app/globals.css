@@ -11,14 +11,13 @@ body {
   min-height: 100vh; /* changed from height to min-height */
   width: 100%;
   font-weight: 300;
-  overflow-x: hidden;
   font-family: 'Telegraf' !important;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  /* remove overflow-x: hidden from here */
 }
 
 *{
